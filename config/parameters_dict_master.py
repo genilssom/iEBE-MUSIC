@@ -685,7 +685,7 @@ smash_config_dict = {
         "Time_Step_Mode":"Fixed",
         "Delta_Time": 0.1,
         "End_Time": 100.0,
-        "RandomSeed": -1,
+        "Randomseed": -1,
         "Nevents": 50,
     },
     "Output": {
