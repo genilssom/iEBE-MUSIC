@@ -678,14 +678,14 @@ iss_dict = {
 
 smash_config_dict = {
     "Logging": {
-        "default": "INFO",
+        "default": 'INFO',
     },
     "General": {
-        "Modus": "List",
-        "Time_Step_Mode": "None",
+        "Modus": 'List',
+        "Time_Step_Mode": 'Fixed',
         "Delta_Time": 0.1,
         "End_Time": 100.0,
-        "Random_Seed": -1,
+        "RandomSeed": -1,
         "Nevents": 50,
     },
     "Output": {
