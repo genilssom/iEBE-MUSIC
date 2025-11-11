@@ -8,6 +8,8 @@ import sys
 import shutil
 import argparse
 import yaml
+from yaml.representer import SafeRepresenter
+from pathlib import Path
 
 # control parameters
 control_dict = {
@@ -843,6 +845,27 @@ path_list = [
 ]
 
 
+###################################################################################################
+
+class QuotedStr(str):
+    pass
+
+def quoted_str_representer(dumper, data):
+    return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='"')
+
+yaml.add_representer(QuotedStr, quoted_str_representer, Dumper=yaml.SafeDumper)
+
+def quote_rhs(obj):
+    if isinstance(obj, dict):
+        return {k: quote_rhs(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [quote_rhs(x) for x in obj]
+    if isinstance(obj, str):
+        return QuotedStr(obj)
+    return obj
+########################################################################################################
+
+
 def update_parameters_dict(par_dict_path, ran_seed):
     """This function update the parameters dictionaries with user's settings"""
     par_diretory = path.dirname(par_dict_path)
@@ -1026,13 +1049,13 @@ def output_parameters_to_files(workfolder="."):
                 
             elif itype == 7:
                 yaml.safe_dump(
-                    parameters_dict,
-                    f,
-                    sort_keys=False,
-                    default_flow_style=False,
-                    allow_unicode=True,
-                    indent=2,
-                    width=4096,           
+                quote_rhs(parameters_dict),   # << aqui!
+                f,
+                sort_keys=False,
+                default_flow_style=False,
+                allow_unicode=True,
+                indent=2,
+                width=4096,
                 )
 
                 
