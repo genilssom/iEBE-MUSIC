@@ -855,11 +855,24 @@ def quoted_str_representer(dumper, data):
 
 yaml.add_representer(QuotedStr, quoted_str_representer, Dumper=yaml.SafeDumper)
 
-def quote_rhs(obj):
+class FlowList(list):
+    pass
+
+def flow_list_representer(dumper, data):
+    return dumper.represent_sequence('tag:yaml.org,2002:seq', data, flow_style=True)
+
+yaml.add_representer(FlowList, flow_list_representer, Dumper=yaml.SafeDumper)
+
+FLOW_KEYS = {"Format", "Quantities"}
+
+def transform_rhs(obj, parent_key=None):
     if isinstance(obj, dict):
-        return {k: quote_rhs(v) for k, v in obj.items()}
+        return {k: transform_rhs(v, k) for k, v in obj.items()}
     if isinstance(obj, list):
-        return [quote_rhs(x) for x in obj]
+        seq = [transform_rhs(x, parent_key) for x in obj]
+        if parent_key in FLOW_KEYS:
+            return FlowList(seq)
+        return seq
     if isinstance(obj, str):
         return QuotedStr(obj)
     return obj
@@ -1048,8 +1061,9 @@ def output_parameters_to_files(workfolder="."):
                 yaml.safe_dump(parameters_dict, f, sort_keys=False)
                 
             elif itype == 7:
-                yaml.safe_dump(
-                quote_rhs(parameters_dict),   # << aqui!
+                data = transform_rhs(smash_config_dict)
+                yaml.safe_dump(data,
+                open("model_parameters/SMASH/config.yaml", "w", encoding="utf-8"),
                 f,
                 sort_keys=False,
                 default_flow_style=False,
