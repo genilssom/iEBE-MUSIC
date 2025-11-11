@@ -698,7 +698,7 @@ smash_config_dict = {
               "pdg","ID","charge",
               "ncoll","form_time","xsecfac",
               "proc_id_origin","proc_type_origin","time_last_coll",
-              "pdg_m other1","pdg_mother2",
+              "pdg_mother1","pdg_mother2",
               "baryon_number","strangeness"
              ],
         },
