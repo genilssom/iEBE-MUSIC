@@ -1062,15 +1062,16 @@ def output_parameters_to_files(workfolder="."):
                 
             elif itype == 7:
                 data = transform_rhs(smash_config_dict)
-                yaml.safe_dump(data,
-                open("model_parameters/SMASH/config.yaml", "w", encoding="utf-8"),
-                f,
-                sort_keys=False,
-                default_flow_style=False,
-                allow_unicode=True,
-                indent=2,
-                width=4096,
-                )
+                with open("model_parameters/SMASH/config.yaml", "w", encoding="utf-8") as f:
+                    yaml.dump(data,
+                    f,
+                    Dumper=yaml.SafeDumper,
+                    sort_keys=False,
+                    default_flow_style=False,
+                    allow_unicode=True,
+                    indent=2,
+                    width=4096,
+                    )
 
                 
         if itype == 2:
