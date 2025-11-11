@@ -678,11 +678,11 @@ iss_dict = {
 
 smash_config_dict = {
     "Logging": {
-        "default": INFO,
+        "default": "INFO",
     },
     "General": {
-        "Modus": List,
-        "Time_Step_Mode":Fixed,
+        "Modus": "List",
+        "Time_Step_Mode":"Fixed",
         "Delta_Time": 0.1,
         "End_Time": 100.0,
         "RandomSeed": -1,
@@ -861,20 +861,34 @@ class FlowList(list):
 def flow_list_representer(dumper, data):
     return dumper.represent_sequence('tag:yaml.org,2002:seq', data, flow_style=True)
 
+yaml.add_representer(QuotedStr, quoted_str_representer, Dumper=yaml.SafeDumper)
 yaml.add_representer(FlowList, flow_list_representer, Dumper=yaml.SafeDumper)
 
 FLOW_KEYS = {"Format", "Quantities"}
+EXEMPT_TOP_LEVEL = {"General", "Logging"}   
 
-def transform_rhs(obj, parent_key=None):
+def _in_exempt(path):
+    return bool(path) and path[0] in EXEMPT_TOP_LEVEL
+
+def transform_rhs(obj, path=None, parent_key=None):
+    if path is None:
+        path = []
+
     if isinstance(obj, dict):
-        return {k: transform_rhs(v, k) for k, v in obj.items()}
+        out = {}
+        for k, v in obj.items():
+            out[k] = transform_rhs(v, path + [k], k)
+        return out
+
     if isinstance(obj, list):
-        seq = [transform_rhs(x, parent_key) for x in obj]
-        if parent_key in FLOW_KEYS:
-            return FlowList(seq)
-        return seq
+        seq = [transform_rhs(x, path, parent_key) for x in obj]
+        return FlowList(seq) if parent_key in FLOW_KEYS else seq
+
     if isinstance(obj, str):
+        if _in_exempt(path):
+            return obj
         return QuotedStr(obj)
+
     return obj
 ########################################################################################################
 
