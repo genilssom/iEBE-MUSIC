@@ -205,7 +205,7 @@ smash_config_dict = {
     "Modi": {
         "List": {
             "File_Directory": "list",
-            "File_Name": "OSCAR.DAT",
+            "File_Prefix": "OSCAR.DAT",
             "Shift_Id": 0,
         },
     },
