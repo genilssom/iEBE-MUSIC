@@ -834,7 +834,7 @@ Parameters_list = [(ipglasma_dict, "input", 3), (kompost_dict, "setup.ini", 4),
                    (hadronic_afterburner_toolkit_dict, "parameters.dat", 1), (trento_dict, "input", 5),
                    (isobars_conf_dict_target, "isobars-conf_target.yaml", 6),
                    (isobars_conf_dict_projectile, "isobars-conf_projectile.yaml", 6),
-                   (smash_config_dict, "config.yaml", 7)]
+                   (smash_config_dict, "list/config.yaml", 7)]
 
 path_list = [
     'model_parameters/IPGlasma/', 'model_parameters/KoMPoST/',
