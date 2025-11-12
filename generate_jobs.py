@@ -30,6 +30,7 @@ known_initial_types = [
 known_afterburner_types = [
     "UrQMD",
     "decay",
+    "SMASH"  # add SMASH option
 ]
 
 support_cluster_list = [
@@ -559,6 +560,8 @@ done
     cd ..
 done
         """)
+    #elif afterburner_type == "SMASH":
+    
     if HBT_flag:
         script.write("""
     cd hadronic_afterburner_toolkit
@@ -846,6 +849,13 @@ def generate_event_folders(initial_condition_database, initial_condition_type,
                 path.abspath(path.join(code_path, 'urqmd_code/urqmd/urqmd.e')),
                 path.join(sub_event_folder, "urqmd/urqmd.e")),
                             shell=True)
+         ############################# SMASH ####################################   
+        if afterburner_type == "SMASH":
+            subprocess.call("ln -s {0:s} {1:s}".format(
+                path.abspath(path.join(code_path, 'smash_code/build/smash')),
+                path.join(sub_event_folder, "smash")),
+                            shell=True)
+        #######################################################################
         if HBT_flag:
             shutil.copytree(
                 path.join(code_path, 'hadronic_afterburner_toolkit'),
