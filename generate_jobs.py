@@ -856,12 +856,18 @@ def generate_event_folders(initial_condition_database, initial_condition_type,
                             shell=True)
          ############################# SMASH ####################################   
         if afterburner_type == "SMASH":
+            smash_dir = path.join(sub_event_folder, 'smash')
+            smash_list_dir = path.join(smash_dir, 'list')
+            mkdir(smash_dir)
+            mkdir(smash_list_dir)
+            
             subprocess.call("ln -s {0:s} {1:s}".format(
                 path.abspath(path.join(code_path, 'smash_code/build/smash')),
-                path.join(sub_event_folder, 'smash')),
+                path.join(smash_dir, "smash")),
                             shell=True)
-            shutil.copyfile(path.join(param_folder, 'SMASH/config.yaml'),
-                            path.join(sub_event_folder, 'smash/config.yaml'))
+            shutil.copyfile(
+                path.join(param_folder, 'SMASH/config.yaml'),
+                path.join(smash_list_dir, 'config.yaml'))
         #######################################################################
         if HBT_flag:
             shutil.copytree(
