@@ -8,6 +8,7 @@
 control_dict = {
     'initial_state_type': "TRENTo",
     'walltime': "10:00:00",  # walltime to run
+    'afterburner_type': "SMASH",
     'save_hydro_surfaces': False,  # flag to save hydro surfaces
     'save_UrQMD_files': False,  # flag to save UrQMD files
 }
