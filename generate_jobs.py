@@ -563,7 +563,7 @@ done
     elif afterburner_type == "SMASH":
         script.write("""
         cp OSCAR.DAT ../smash/list/OSCAR.DAT0
-        cd ../smash
+        cd ../SMASH
         ./smash -i list/config.yaml > run.log
 done
 """)
