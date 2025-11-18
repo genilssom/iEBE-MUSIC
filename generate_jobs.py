@@ -1045,6 +1045,7 @@ def main():
         afterburner_type = parameter_dict.control_dict['afterburner_type']
     except KeyError:
         afterburner_type = "UrQMD"
+    print("DEBUG: afterburner_type =", afterburner_type)
     if afterburner_type not in known_afterburner_types:
         print("\U0001F6AB  "
               + f"Do not recognize the afterburner type: {afterburner_type}")
