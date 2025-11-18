@@ -856,7 +856,7 @@ def generate_event_folders(initial_condition_database, initial_condition_type,
                             shell=True)
          ############################# SMASH ####################################   
         if afterburner_type == "SMASH":
-            smash_dir = path.join(sub_event_folder, 'smash')
+            smash_dir = path.join(sub_event_folder, 'SMASH')
             smash_list_dir = path.join(smash_dir, 'list')
             mkdir(smash_dir)
             mkdir(smash_list_dir)
