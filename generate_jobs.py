@@ -560,8 +560,13 @@ done
     cd ..
 done
         """)
-    #elif afterburner_type == "SMASH":
-    
+    elif afterburner_type == "SMASH":
+        script.write("""
+        cp OSCAR.DAT ../smash/list/OSCAR.DAT0
+        cd ../smash
+        ./smash -i list/config.yaml > run.log
+done
+""")
     if HBT_flag:
         script.write("""
     cd hadronic_afterburner_toolkit
@@ -853,8 +858,10 @@ def generate_event_folders(initial_condition_database, initial_condition_type,
         if afterburner_type == "SMASH":
             subprocess.call("ln -s {0:s} {1:s}".format(
                 path.abspath(path.join(code_path, 'smash_code/build/smash')),
-                path.join(sub_event_folder, "smash")),
+                path.join(sub_event_folder, 'smash')),
                             shell=True)
+            shutil.copyfile(path.join(param_folder, 'SMASH/config.yaml'),
+                            path.join(sub_event_folder, 'smash/config.yaml'))
         #######################################################################
         if HBT_flag:
             shutil.copytree(
