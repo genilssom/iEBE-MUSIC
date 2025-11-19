@@ -444,12 +444,13 @@ def run_urqmd_shell(n_urqmd, final_results_folder, event_id, para_dict,
                     startTime, checkPointFileName):
     """This function runs urqmd events in parallel"""
     logo = "\U0001F5FF"
+    afterburner_type = para_dict.get("afterburner_type", "UrQMD")
     urqmdResults = "particle_list_{}.bin".format(event_id)
     results_folder = path.join(final_results_folder, urqmdResults)
     urqmd_success = False
 
     if path.exists(results_folder):
-        print("{} UrQMD results {} exist ... ".format(logo, urqmdResults),
+        print("{} results {} exist ... ".format(logo, afterburner_type, urqmdResults),
               flush=True)
         urqmd_success = True
 
@@ -472,7 +473,7 @@ def run_urqmd_shell(n_urqmd, final_results_folder, event_id, para_dict,
                     checkPoint(startTime, checkPointFileName,
                                final_results_folder)
 
-        print("{}  [{}] Running UrQMD ... ".format(logo, curr_time), flush=True)
+        print("{}  [{}] Running ... ".format(logo, curr_time, afterburner_type), flush=True)
         with Pool(processes=n_urqmd) as pool1:
             pool1.map(run_urqmd_event, range(n_urqmd))
 
