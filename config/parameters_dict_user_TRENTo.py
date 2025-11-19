@@ -132,10 +132,10 @@ music_dict = {
     #   -- 131: 3dMCGlauber with zero nucleus thickness
     's_factor': 1.000,  # normalization factor read in initial data file
     'Initial_time_tau_0':
-        0.2,  # starting time of the hydrodynamic evolution (fm/c)
+        0.6,  # starting time of the hydrodynamic evolution (fm/c)
     'Delta_Tau': 0.005,  # time step to use in the evolution [fm/c]
     'boost_invariant': 1,  # whether the simulation is boost-invariant
-    'EOS_to_use': 9,  # type of the equation of state
+    'EOS_to_use': 91,  # type of the equation of state
     # 9: hotQCD EOS with UrQMD
     # transport coefficients
     'Eta_grid_size': 1.0,

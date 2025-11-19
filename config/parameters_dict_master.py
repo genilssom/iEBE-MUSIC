@@ -365,7 +365,7 @@ music_dict = {
     'echo_level': 1,  # control the mount of message output to screen
     'beastMode': 0,
     'mode': 2,  # MUSIC running mode 2: Evolution only.
-    'Initial_profile': 9,  # type of initial condition 
+    'Initial_profile': 92,  # type of initial condition 
     # 9: IPGlasma (full Tmunu),
     #   -- 91: e and u^\mu,
     #   -- 92: e only,
@@ -402,7 +402,7 @@ music_dict = {
         0.4,  # starting time of the hydrodynamic evolution (fm/c)
     'Delta_Tau': 0.005,  # time step to use in the evolution [fm/c]
     'Total_evolution_time_tau':
-        30.,  # the maximum allowed running evolution time (fm/c)
+        10.,  # the maximum allowed running evolution time (fm/c)
     'boost_invariant': 1,  # whether the simulation is boost-invariant 
     'Eta_grid_size': 14.0,  # spatial rapidity range
     # [-Eta_grid_size/2, Eta_grid_size/2 - delta_eta]
@@ -417,7 +417,7 @@ music_dict = {
     'Grid_size_in_x': 200,  # number of the grid points in x direction
     'Grid_size_in_y': 200,  # number of the grid points in y direction
     'gridPadding': 3,  # grid padding size in the transverse plane (fm)
-    'EOS_to_use': 9,  # type of the equation of state
+    'EOS_to_use': 91,  # type of the equation of state
     # 0: ideal gas
     # 1: EOS-Q from azhydro
     # 7: lattice EOS s95p-v1.2 for UrQMD
