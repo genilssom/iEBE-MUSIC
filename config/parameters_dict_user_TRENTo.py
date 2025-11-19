@@ -186,7 +186,7 @@ smash_config_dict = {
         "Delta_Time": 0.1,
         "End_Time": 100.0,
         "Randomseed": -1,
-        "Nevents": 50,
+        "Nevents": 1,
     },
     "Output": {
         "Output_Interval": 10.0,
