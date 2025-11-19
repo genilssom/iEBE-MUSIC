@@ -402,7 +402,7 @@ music_dict = {
         0.4,  # starting time of the hydrodynamic evolution (fm/c)
     'Delta_Tau': 0.005,  # time step to use in the evolution [fm/c]
     'Total_evolution_time_tau':
-        10.,  # the maximum allowed running evolution time (fm/c)
+        30.,  # the maximum allowed running evolution time (fm/c)
     'boost_invariant': 1,  # whether the simulation is boost-invariant 
     'Eta_grid_size': 14.0,  # spatial rapidity range
     # [-Eta_grid_size/2, Eta_grid_size/2 - delta_eta]
