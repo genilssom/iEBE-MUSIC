@@ -513,7 +513,7 @@ mkdir -p UrQMD_results
 rm -fr UrQMD_results/*
 
 surfaceFile=`ls hydro_event | grep "surface"`
-for iev in {0..9}
+for iev in {0..0}
 do
     export OMP_NUM_THREADS=1
     cd iSS
