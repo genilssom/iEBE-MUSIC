@@ -22,6 +22,7 @@ RUN yum -y install \
         time \
         vim \
         wget \
+        build-essential \
         openmpi-bin \
         libopenmpi-dev \
         libboost-all-dev \
