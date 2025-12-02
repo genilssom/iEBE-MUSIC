@@ -38,7 +38,8 @@ RUN cd ${HOME} && \
     tar xf pythia8315.tgz && rm pythia8315.tgz && \
     cd pythia8315 && \
     ./configure --cxx-common='-std=c++17 -O3 -fPIC -pthread' && \
-    make -j"$(nproc)"
+    make -j4   
+    #"$(nproc)" --> usar esse no lugar do 4 quando tiver num pc melhor
 
 # download and compile the iEBE-MUSIC framework
 RUN cd ${HOME} && \
