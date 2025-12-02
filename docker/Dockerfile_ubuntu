@@ -38,9 +38,16 @@ RUN python3 -m pip install --upgrade pip && \
 
 ENV HOME /opt/
 
+RUN cd ${HOME} && \
+    wget https://pythia.org/download/pythia83/pythia8315.tgz && \
+    tar xf pythia8315.tgz && rm pythia8315.tgz && \
+    cd pythia8315 && \
+    ./configure --cxx-common='-std=c++17 -O3 -fPIC -pthread' && \
+    make -j"$(nproc)"
+
 # download and compile the iEBE-MUSIC framework
 RUN cd ${HOME} \
-&& git clone --depth=1 https://github.com/chunshen1987/iEBE-MUSIC -b dev \
+&& git clone --depth=1 https://github.com/genilssom/iEBE-MUSIC -b smash \
 && cd iEBE-MUSIC/codes \
 && ./get_code_packages.sh \
 && ./compile_code_packages.sh \
