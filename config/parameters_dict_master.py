@@ -1005,7 +1005,7 @@ def update_parameters_dict(par_dict_path, ran_seed):
     if hasattr(parameters_dict, 'smash_config_dict'):
         smash_config_dict.update(parameters_dict.smash_config_dict)
     if afterburner_type == "SMASH":
-        music_dict['EOS_to_use'] = 91
+        #music_dict['EOS_to_use'] = 91
         iss_dict['afterburner_type'] = 2
         iss_dict['use_OSCAR_format'] = 1
         iss_dict['use_OSCAR2013'] = 1
