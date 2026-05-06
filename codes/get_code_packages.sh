@@ -34,7 +34,7 @@ rm -fr kompost_code/.git
 
 # download MUSIC
 rm -fr MUSIC_code
-git clone --depth=3 https://github.com/luizafperin/MUSIC -b main music_code
+git clone --depth=3 https://github.com/luizafperin/MUSIC -b main MUSIC_code
 #(cd MUSIC_code; git checkout e898cc826efc0303f2dd688602e6c604c9ef0f91)
 rm -fr MUSIC_code/.git
 
@@ -101,4 +101,4 @@ rm -fr hadronic_afterburner_toolkit_code/.git
 # download nucleus configurations for IP-Glasma
 (cd ipglasma_code/nucleusConfigurations; bash download_nucleusTables.sh;)
 # download essential EOS files for hydro simulations
-(cd music_code/EOS; bash download_hotQCD.sh; bash download_hotQCD.sh SMASH_binary; bash download_Neos2D.sh bqs; bash download_EOS-gp.sh)
+(cd MUSIC_code/EOS; bash download_hotQCD.sh; bash download_hotQCD.sh SMASH_binary; bash download_Neos2D.sh bqs; bash download_EOS-gp.sh)
