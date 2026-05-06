@@ -4,9 +4,9 @@
 
 #download Isobar-Sampler
 rm -fr isobar_sampler_code
-git clone https://github.com/genilssom/Isobar-Sampler.git -b test-newchain isobar_sampler_code
-#(cd isobar_sampler_code; git checkout ...)
-#rm -fr isobar_sampler_code/.git
+git clone https://github.com/mluzum/Isobar-Sampler.git isobar_sampler_code
+(cd isobar_sampler_code; git checkout bc586de03c26a3f3e4d6749e385ea015dcb204f2)
+rm -fr isobar_sampler_code/.git
 
 # download TRENTo
 rm -fr trento_code
