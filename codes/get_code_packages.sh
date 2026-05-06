@@ -40,7 +40,7 @@ rm -fr MUSIC_code/.git
 
 # download iSS particle sampler
 rm -fr iSS_code
-git clone https://github.com/genilssom/iSS.git -b newRTA iss_code
+git clone https://github.com/genilssom/iSS.git -b newRTA iSS_code
 #(cd iSS_code; git checkout b612a8e425d3e1dfc2d2b71cd208df6810c783be)
 rm -fr iSS_code/.git
 
