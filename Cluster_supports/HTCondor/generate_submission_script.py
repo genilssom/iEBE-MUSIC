@@ -222,10 +222,6 @@ WhenToTransferOutput = ON_EXIT
     input_files.append(sif)
     script.write("\ntransfer_input_files = {}\n".format(", ".join(input_files)))
 
-    # ── TEMPORARY DEBUG ──────────────────────────────────────────────────────────
-    # TRENTo is copied into EVENT_RESULTS in run_singularity.sh so it travels
-    # with each job's unique result directory.
-    # To revert: remove the cp step from run_singularity.sh (marked there too).
     script.write("""
 transfer_output_files = playground/event_0/EVENT_RESULTS_$(Process)
 
@@ -353,10 +349,7 @@ status=$?
 if [ $status -ne 0 ]; then
     exit $status
 fi
-# ── TEMPORARY DEBUG: copy TRENTo into EVENT_RESULTS so it transfers with the job ──
-# Revert: remove the two lines below (cp and the comment).
 cp -r TRENTo EVENT_RESULTS_${processId}/
-# ── END TEMPORARY DEBUG ────────────────────────────────────────────────────────────
 """)
     script.close()
 
