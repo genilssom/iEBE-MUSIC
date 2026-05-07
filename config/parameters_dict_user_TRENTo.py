@@ -113,6 +113,12 @@ seeds_conf_dict = {
     'number_of_parallel_processes': 1, # -1: auto-detect available CPUs
 }
 
+# freestream
+freestream_dict = {
+    'freestream_time': 1.0,   # free-streaming time τ_fs (fm/c)
+    'initial_profile': 92,    # 92: e only | 91: e + u^μ | 9: full T^μν
+}
+
 # TRENTo
 trento_dict = {
     'type': "self", # self: generate initial condition on the fly #'database_name?'

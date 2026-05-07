@@ -793,6 +793,8 @@ def generate_event_folders(initial_condition_database, initial_condition_type,
               # Copying the input files to the folders created above
               shutil.copyfile(path.join(param_folder, 'TRENTo/input'),
                               path.join(event_folder, 'TRENTo/input'))
+              shutil.copyfile(path.join(param_folder, 'freestream/freestream_input'),
+                              path.join(event_folder, 'freestream_input'))
 
               seed_file_abs = path.abspath(isobar_seed_file)
 

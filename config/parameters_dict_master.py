@@ -155,6 +155,13 @@ trento_dict = {
     'grid-step': 0.2,        #####
 }
 
+# freestream
+freestream_dict = {
+    'freestream_time': 1.0,   # free-streaming time τ_fs (fm/c)
+    'initial_profile': 92,    # 92: e only | 91: e + u^μ | 9: full T^μν
+    'grid_max': 10.0,         # overwritten at runtime from TRENTo grid-max
+}
+
 # IPGlasma
 ipglasma_dict = {
     'type': "self",  # minimumbias or fixed (pre-generated)
@@ -838,7 +845,9 @@ Parameters_list = [(ipglasma_dict, "input", 3), (kompost_dict, "setup.ini", 4),
                    (music_dict, "music_input_mode_2", 2),
                    (photon_dict, "parameters.dat", 1),
                    (iss_dict, "iSS_parameters.dat", 1),
-                   (hadronic_afterburner_toolkit_dict, "parameters.dat", 1), (trento_dict, "input", 5),
+                   (hadronic_afterburner_toolkit_dict, "parameters.dat", 1),
+                   (trento_dict, "input", 5),
+                   (freestream_dict, "freestream_input", 2),
                    (isobars_conf_dict_target, "isobars-conf_target.yaml", 6),
                    (isobars_conf_dict_projectile, "isobars-conf_projectile.yaml", 6),
                    (smash_config_dict, "config.yaml", 7)]
@@ -847,7 +856,9 @@ path_list = [
     'model_parameters/IPGlasma/', 'model_parameters/KoMPoST/',
     'model_parameters/3dMCGlauber/', 'model_parameters/MUSIC/',
     'model_parameters/photonEmission_hydroInterface/', 'model_parameters/iSS/',
-    'model_parameters/hadronic_afterburner_toolkit/', 'model_parameters/TRENTo', 'model_parameters/Isobar-Sampler_target',
+    'model_parameters/hadronic_afterburner_toolkit/', 'model_parameters/TRENTo',
+    'model_parameters/freestream/',
+    'model_parameters/Isobar-Sampler_target',
     'model_parameters/Isobar-Sampler_projectile', 'model_parameters/SMASH'
 ]
 
@@ -944,6 +955,12 @@ def update_parameters_dict(par_dict_path, ran_seed):
         trento_dict.update(parameters_dict.trento_dict)
         if hasattr(parameters_dict, 'seeds_conf_dict'):
             seeds_conf_dict.update(parameters_dict.seeds_conf_dict)
+        if hasattr(parameters_dict, 'freestream_dict'):
+            freestream_dict.update(parameters_dict.freestream_dict)
+        # grid_max must match TRENTo grid-max — enforce consistency here
+        freestream_dict['grid_max'] = trento_dict['grid-max']
+        if 'Initial_profile' not in parameters_dict.music_dict:
+            parameters_dict.music_dict['Initial_profile'] = freestream_dict['initial_profile']
         if 'Initial_Distribution_input_filename' not in parameters_dict.music_dict:
             parameters_dict.music_dict[
                 'Initial_Distribution_input_filename'] = (

@@ -51,30 +51,61 @@ def mapEventIdToCentrality(event_id):
     return (centrality)
 
 
-##########################################################################################
-# This function converts a matrix file to a table file for freestreaming
+def read_freestream_input(input_file="freestream_input"):
+    """Read key-value pairs from the freestream input file."""
+    params = {}
+    try:
+        with open(input_file) as f:
+            for line in f:
+                line = line.strip()
+                if not line or line == "EndOfData":
+                    continue
+                parts = line.split(None, 1)
+                if len(parts) == 2:
+                    params[parts[0]] = parts[1]
+    except FileNotFoundError:
+        pass
+    return params
 
-def convert_matrix_to_table(infile, outfile, n_grid=100, lower=-10.0, upper=10.0):
-    data = np.loadtxt(infile, comments='#')
-    data = data.reshape(n_grid, n_grid)
 
-    step = (upper - lower) / n_grid
-    x = np.linspace(lower + step/2, upper - step/2, n_grid)
-    y = x
-    X, Y = np.meshgrid(x, y, indexing='xy')
-    
-    eps_flat = data.ravel()
+def build_initial_table(grid_max, e, utau=None, ux=None, uy=None,
+                        pixx=None, pixy=None, piyy=None):
+    """Build the 18-column initial condition table for MUSIC (profile 9/91/92).
+
+    Column order matches MUSIC's init.cpp parser:
+      tau  x  y  ed  utau  ux  uy  ueta  pi^tt  pi^tx  pi^ty  pi^teta
+      pi^xx  pi^xy  pi^xeta  pi^yy  pi^yeta  pi^etaeta
+
+    For boost-invariant evolution all eta components are zero.
+    MUSIC recomputes the tau-row of pi^munu from the spatial components.
+    """
+    n = e.shape[0]
+    cell = 2.0 * grid_max / n
+    xymax = grid_max - cell / 2.0
+    coords = np.linspace(-xymax, xymax, n)
+    X, Y = np.meshgrid(coords, coords, indexing='xy')
+    flat = e.ravel()
+    size = flat.size
+
+    zeros = np.zeros(size)
     table = np.column_stack([
-        np.zeros_like(eps_flat),
-        X.ravel(),
-        Y.ravel(),
-        eps_flat,
-        np.ones_like(eps_flat),
-        np.zeros((eps_flat.size, 13))
+        zeros,                                          # tau (dummy)
+        X.ravel(), Y.ravel(),                          # x, y
+        flat,                                          # energy density
+        utau.ravel() if utau is not None else np.ones(size),   # u^tau
+        ux.ravel()   if ux   is not None else zeros,           # u^x
+        uy.ravel()   if uy   is not None else zeros,           # u^y
+        zeros,                                         # u^eta = 0
+        zeros, zeros, zeros, zeros,                    # pi^tt,tx,ty,teta (MUSIC recomputes)
+        pixx.ravel() if pixx is not None else zeros,   # pi^xx
+        pixy.ravel() if pixy is not None else zeros,   # pi^xy
+        zeros,                                         # pi^xeta = 0
+        piyy.ravel() if piyy is not None else zeros,   # pi^yy
+        zeros, zeros,                                  # pi^yeta, pi^etaeta = 0
     ])
-    header = f"# dummy 1 etamax= 0 xmax= {n_grid} ymax= {n_grid} deta= 0 dx= {step} dy= {step}"
-    np.savetxt(outfile, table, fmt="%.6e", header=header, comments='')
-############################################################################################
+    header = (f"# dummy 1 etamax= 0 xmax= {n} ymax= {n} "
+              f"deta= 0 dx= {cell:.6f} dy= {cell:.6f}")
+    return table, header
 
 def get_initial_condition(database, initial_type, iev, event_id, seed_add,
                           final_results_folder):
@@ -238,20 +269,35 @@ def collect_trento_event(final_results_folder):
     
 def connect_trento_event(res_path, initial_type, filename):
     if initial_type == "TRENTo":
-        file_path = path.join(res_path, filename)
-        initial = np.loadtxt(file_path)
-        fs = freestream.FreeStreamer(initial, 10.0, 1.0)
+        fs_params = read_freestream_input()
+        initial_profile = int(fs_params.get('initial_profile', 92))
+        grid_max        = float(fs_params.get('grid_max', 10.0))
+        fs_time         = float(fs_params.get('freestream_time', 1.0))
+
+        initial = np.loadtxt(path.join(res_path, filename))
+        fs = freestream.FreeStreamer(initial, grid_max, fs_time)
         e = fs.energy_density()
-        e_path = path.join(res_path, "e.dat")
-        np.savetxt(e_path, e)
-        hydro_file = "hydro.dat"
-        hydro_out = path.join(res_path, hydro_file)
-        convert_matrix_to_table(e_path, hydro_out)
+
+        utau = ux = uy = pixx = pixy = piyy = None
+        if initial_profile in (91, 9):
+            utau = fs.flow_velocity(0)
+            ux   = fs.flow_velocity(1)
+            uy   = fs.flow_velocity(2)
+        if initial_profile == 9:
+            pixx = fs.shear_tensor(1, 1)
+            pixy = fs.shear_tensor(1, 2)
+            piyy = fs.shear_tensor(2, 2)
+
+        table, header = build_initial_table(grid_max, e, utau, ux, uy,
+                                            pixx, pixy, piyy)
+        hydro_out = path.join(res_path, "hydro.dat")
+        np.savetxt(hydro_out, table, fmt="%.6e", header=header, comments='')
+
         hydro_initial_file = "MUSIC/initial/e.dat"
         if path.islink(hydro_initial_file):
             remove(hydro_initial_file)
-        call("ln -s {0:s} {1:s}".format(hydro_out,
-                                        hydro_initial_file),shell=True)  
+        call("ln -s {0:s} {1:s}".format(hydro_out, hydro_initial_file),
+             shell=True)
 
 
 def collect_ipglasma_event(final_results_folder):
