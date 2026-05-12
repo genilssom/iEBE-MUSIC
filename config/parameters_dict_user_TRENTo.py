@@ -10,7 +10,7 @@ control_dict = {
     'walltime': "10:00:00",  # walltime to run
     'afterburner_type': "SMASH",  # hadronic afterburner type
     'save_hydro_surfaces': False,  # flag to save hydro surfaces
-    'save_UrQMD_files': True,  # flag to save UrQMD files
+    'save_UrQMD_files': False,  # particle_list.bin deleted after analysis to save disk
     }
 
 # isobar-sample

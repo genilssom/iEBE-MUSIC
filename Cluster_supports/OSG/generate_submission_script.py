@@ -202,7 +202,7 @@ Requirements = SINGULARITY_CAN_USE_SIF && StringListIMember("stash", HasFileTran
     script.write("\ntransfer_input_files = {}\n".format(", ".join(input_files)))
 
     script.write("""
-transfer_output_files = playground/event_0/EVENT_RESULTS_$(Process)
+transfer_output_files = playground/event_0/EVENT_RESULTS_$(Process)/smash_results_$(Process)
 
 error = log/job.$(Cluster).$(Process).error
 output = log/job.$(Cluster).$(Process).output
