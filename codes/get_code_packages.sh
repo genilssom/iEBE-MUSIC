@@ -40,7 +40,7 @@ rm -fr MUSIC_code/.git
 
 # download iSS particle sampler
 rm -fr iSS_code
-git clone https://github.com/chunshen1987/iSS -b XSCAPE iSS_code
+git clone https://github.com/genilssom/iSS.git -b newRTA iSS_code
 #(cd iSS_code; git checkout b612a8e425d3e1dfc2d2b71cd208df6810c783be)
 rm -fr iSS_code/.git
 
@@ -94,6 +94,11 @@ rm -fr hadronic_afterburner_toolkit_code/.git
 (
   cd iSS_code/iSS_tables/deltaf_tables/urqmd
   bash download_NEoS4D_deltafCoeffs.sh
+)
+
+(
+  cd iSS_code/iSS_tables/deltaf_tables
+  bash download_newRTA.sh
 )
 
 # download nucleus configurations for 3D-Glauber
