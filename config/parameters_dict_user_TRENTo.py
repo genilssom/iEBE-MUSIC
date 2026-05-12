@@ -144,8 +144,7 @@ music_dict = {
     # 13: dynamical initialization (3dMCGlauber_dynamical)
     #   -- 131: 3dMCGlauber with zero nucleus thickness
     's_factor': 1.000,  # normalization factor read in initial data file
-    'Initial_time_tau_0':
-        0.2,  # starting time of the hydrodynamic evolution (fm/c)
+    'Initial_time_tau_0': 1.0,  # must equal freestream_dict['freestream_time'] (fm/c)
     'Delta_Tau': 0.005,  # time step to use in the evolution [fm/c]
     'boost_invariant': 1,  # whether the simulation is boost-invariant
     'EOS_to_use': 9,  # type of the equation of state
