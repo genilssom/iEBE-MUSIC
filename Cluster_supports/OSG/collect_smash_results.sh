@@ -21,5 +21,5 @@ mkdir -p "$runfoldername"
     cp "$run"/*.submit ./ 2>/dev/null
 
     echo "Combining SMASH results from: $run"
-    ../combine_smash_results.py "$run"
+    python3 ../combine_smash_results.py "$run"
 )
