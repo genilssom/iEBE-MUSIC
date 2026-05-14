@@ -4,22 +4,27 @@
 # Usage (from $DATA):
 #   ./collect_smash_results.sh ~/iEBEMUSICTestRun
 #
-# Finds every smash_analysis_*.npz under the run folder,
-# combines them into a single combined_results.npz, and saves
-# a copy of the submission scripts alongside it.
+# Finds every smash_results_*/smash_analysis_*.npz under the run folder
+# and copies them here, preserving the smash_results_N/ structure.
+# Can be run repeatedly while jobs are still running.
+#
+# To combine afterwards:
+#   python3 combine_smash_results.py <run_folder_here>
 
 run=${1%/}
 runfoldername=$(echo "$run" | rev | cut -d "/" -f 1 | rev)
 
 mkdir -p "$runfoldername"
-(
-    cd "$runfoldername"
 
-    # copy submission scripts for reference
-    cp "$run"/*.py  ./ 2>/dev/null
-    cp "$run"/*.sh  ./ 2>/dev/null
-    cp "$run"/*.submit ./ 2>/dev/null
+echo "Collecting SMASH results from: $run"
 
-    echo "Combining SMASH results from: $run"
-    python3 ../combine_smash_results.py "$run"
-)
+n=0
+for npz in "$run"/smash_results_*/smash_analysis_*.npz; do
+    [ -f "$npz" ] || continue
+    subdir=$(basename "$(dirname "$npz")")
+    mkdir -p "$runfoldername/$subdir"
+    cp "$npz" "$runfoldername/$subdir/"
+    n=$((n + 1))
+done
+
+echo "Done. Collected $n file(s) into $runfoldername/"
