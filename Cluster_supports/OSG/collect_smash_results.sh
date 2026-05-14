@@ -4,9 +4,9 @@
 # Usage (from $DATA):
 #   ./collect_smash_results.sh ~/iEBEMUSICTestRun
 #
-# Finds every smash_results_*/smash_analysis_*.npz under the run folder
-# and copies them here, preserving the smash_results_N/ structure.
-# Can be run repeatedly while jobs are still running.
+# Moves every smash_results_N/ directory from $HOME into $DATA,
+# freeing space in $HOME. Skips directories already collected.
+# Safe to run repeatedly while jobs are still running.
 #
 # To combine afterwards:
 #   python3 combine_smash_results.py <run_folder_here>
@@ -18,13 +18,18 @@ mkdir -p "$runfoldername"
 
 echo "Collecting SMASH results from: $run"
 
-n=0
-for npz in "$run"/smash_results_*/smash_analysis_*.npz; do
-    [ -f "$npz" ] || continue
-    subdir=$(basename "$(dirname "$npz")")
-    mkdir -p "$runfoldername/$subdir"
-    cp "$npz" "$runfoldername/$subdir/"
-    n=$((n + 1))
+n_moved=0
+n_skip=0
+for src in "$run"/smash_results_*/; do
+    [ -d "$src" ] || continue
+    subdir=$(basename "$src")
+    dst="$runfoldername/$subdir"
+    if [ -d "$dst" ]; then
+        n_skip=$((n_skip + 1))
+        continue
+    fi
+    mv "$src" "$dst"
+    n_moved=$((n_moved + 1))
 done
 
-echo "Done. Collected $n file(s) into $runfoldername/"
+echo "Done.  Moved: $n_moved   Already collected: $n_skip"
