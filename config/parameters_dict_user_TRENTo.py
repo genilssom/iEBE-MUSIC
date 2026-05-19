@@ -116,7 +116,7 @@ seeds_conf_dict = {
 # freestream
 freestream_dict = {
     'freestream_time': 1.0,   # free-streaming time τ_fs (fm/c)
-    'initial_profile': 92,    # 92: e only | 91: e + u^μ | 9: full T^μν
+    'initial_profile': 9,     # 92: e only | 91: e + u^μ | 9: full T^μν
 }
 
 # TRENTo
@@ -134,13 +134,13 @@ trento_dict = {
     'normalization': 15,      # normalization
     'b-min': 0,              # minimum b
     'b-max': 3,             # maximum b (fm); 0 = geometric max (~14 fm), NOT b=0!
-    'grid-max': 10,          #####
-    'grid-step': 0.2,        #####
+    'grid-max': 13,          # nuclear edge (~10 fm) + 1 fm freestream + 2 fm margin
+    'grid-step': 0.2,
 }
 
 # MUSIC
 music_dict = {
-    'Initial_profile': 92,  # type of initial condition 
+    'Initial_profile': 9,   # type of initial condition
     # 13: dynamical initialization (3dMCGlauber_dynamical)
     #   -- 131: 3dMCGlauber with zero nucleus thickness
     's_factor': 1.000,  # normalization factor read in initial data file
@@ -152,10 +152,10 @@ music_dict = {
     # transport coefficients
     'Eta_grid_size': 1.0,
     'Grid_size_in_eta': 1.0,
-    'X_grid_size_in_fm': 30.0,  # ±15 fm: outer nucleons at r~9 fm expand to ~14 fm by freeze-out
-    'Y_grid_size_in_fm': 30.0,
-    'Grid_size_in_x': 150,  # 30 fm / 0.2 fm per cell = 150 cells
-    'Grid_size_in_y': 150,
+    'X_grid_size_in_fm': 40.0,  # ±20 fm: outer cells (r~10 fm, v~c) reach ~18 fm; safe for tau_fs up to 1.5 fm/c
+    'Y_grid_size_in_fm': 40.0,
+    'Grid_size_in_x': 200,  # 40 fm / 0.2 fm per cell = 200 cells
+    'Grid_size_in_y': 200,
     'quest_revert_strength': 1.0,  # the strength of the viscous regulation
     'Viscosity_Flag_Yes_1_No_0': 1,  # turn on viscosity in the evolution
     'Include_Shear_Visc_Yes_1_No_0': 1,  # include shear viscous effect
