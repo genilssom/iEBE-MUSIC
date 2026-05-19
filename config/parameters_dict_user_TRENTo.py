@@ -152,10 +152,10 @@ music_dict = {
     # transport coefficients
     'Eta_grid_size': 1.0,
     'Grid_size_in_eta': 1.0,
-    'X_grid_size_in_fm': 26.0,  # ±13 fm: allows fireball to expand to ~12 fm before freeze-out
-    'Y_grid_size_in_fm': 26.0,
-    'Grid_size_in_x': 130,  # 26 fm / 0.2 fm per cell = 130 cells
-    'Grid_size_in_y': 130,
+    'X_grid_size_in_fm': 30.0,  # ±15 fm: outer nucleons at r~9 fm expand to ~14 fm by freeze-out
+    'Y_grid_size_in_fm': 30.0,
+    'Grid_size_in_x': 150,  # 30 fm / 0.2 fm per cell = 150 cells
+    'Grid_size_in_y': 150,
     'quest_revert_strength': 1.0,  # the strength of the viscous regulation
     'Viscosity_Flag_Yes_1_No_0': 1,  # turn on viscosity in the evolution
     'Include_Shear_Visc_Yes_1_No_0': 1,  # include shear viscous effect
