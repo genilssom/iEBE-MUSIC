@@ -360,13 +360,27 @@ def run_hydro_event(final_results_folder, event_id):
         call("bash ./run_hydro.sh", shell=True)
 
         # check hydro finishes properly
-        ftmp = open("MUSIC/hydro_results/run.log", 'r', encoding="utf-8")
-        hydro_status = ftmp.readlines()[-1].split()[3]
-        if hydro_status == "Finished.":
-            hydro_success = True
+        try:
+            ftmp = open("MUSIC/hydro_results/run.log", 'r', encoding="utf-8")
+            lines = ftmp.readlines()
+            ftmp.close()
+            last_line = lines[-1] if lines else ""
+            tokens = last_line.split()
+            hydro_status = tokens[3] if len(tokens) > 3 else ""
+            if hydro_status == "Finished.":
+                hydro_success = True
+            else:
+                print("{} MUSIC did not finish — last line of run.log:".format(logo),
+                      flush=True)
+                for l in lines[-5:]:
+                    print("    {}".format(l.rstrip()), flush=True)
+        except (FileNotFoundError, IndexError) as e:
+            print("{} Could not read MUSIC/hydro_results/run.log: {}".format(
+                logo, e), flush=True)
 
         # collect hydro results
-        shutil.move("MUSIC/hydro_results", results_folder)
+        if path.exists("MUSIC/hydro_results"):
+            shutil.move("MUSIC/hydro_results", results_folder)
 
     return (hydro_success, hydro_folder_name)
 

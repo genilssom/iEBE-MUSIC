@@ -133,7 +133,7 @@ trento_dict = {
     'cross-section': 4.23,   # inelastic nucleon-nucleon cross-section
     'normalization': 15,      # normalization
     'b-min': 0,              # minimum b
-    'b-max': 0,             # maximum b
+    'b-max': 3,             # maximum b (fm); 0 = geometric max (~14 fm), NOT b=0!
     'grid-max': 10,          #####
     'grid-step': 0.2,        #####
 }
@@ -152,10 +152,10 @@ music_dict = {
     # transport coefficients
     'Eta_grid_size': 1.0,
     'Grid_size_in_eta': 1.0,
-    'X_grid_size_in_fm': 18.0,
-    'Y_grid_size_in_fm': 18.0,
-    'Grid_size_in_x': 90,  # number of the grid points in x direction
-    'Grid_size_in_y': 90, 
+    'X_grid_size_in_fm': 26.0,  # ±13 fm: allows fireball to expand to ~12 fm before freeze-out
+    'Y_grid_size_in_fm': 26.0,
+    'Grid_size_in_x': 130,  # 26 fm / 0.2 fm per cell = 130 cells
+    'Grid_size_in_y': 130,
     'quest_revert_strength': 1.0,  # the strength of the viscous regulation
     'Viscosity_Flag_Yes_1_No_0': 1,  # turn on viscosity in the evolution
     'Include_Shear_Visc_Yes_1_No_0': 1,  # include shear viscous effect
