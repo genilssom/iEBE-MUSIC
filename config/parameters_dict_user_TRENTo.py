@@ -132,8 +132,8 @@ trento_dict = {
     'nucleon-width': 0.5,    # nucleon width
     'cross-section': 4.23,   # inelastic nucleon-nucleon cross-section
     'normalization': 15,      # normalization
-    'b-min': 0,              # minimum b
-    'b-max': 3,             # maximum b (fm); 0 = geometric max (~14 fm), NOT b=0!
+    'b-min': 0,              # minimum b (fm)
+    'b-max': 3,              # maximum b (fm); negative (e.g. -1) = geometric max (~14 fm) = min bias
     'grid-max': 13,          # nuclear edge (~10 fm) + 1 fm freestream + 2 fm margin
     'grid-step': 0.2,
 }
