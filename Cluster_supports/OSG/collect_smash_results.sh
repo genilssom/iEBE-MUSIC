@@ -8,8 +8,9 @@
 # freeing space in $HOME. Skips directories already collected.
 # Safe to run repeatedly while jobs are still running.
 #
-# To combine afterwards:
-#   python3 combine_smash_results.py <run_folder_here>
+# To convert to notebook-compatible format afterwards:
+#   python3 smash_to_qns.py <run_folder_here> <output_folder>
+# Produces Qns_0.npy and Nsamples_0.npy for use with the advisor's notebooks.
 
 run=${1%/}
 runfoldername=$(echo "$run" | rev | cut -d "/" -f 1 | rev)
