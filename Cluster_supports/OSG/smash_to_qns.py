@@ -116,7 +116,7 @@ def process_event(npz):
     return event_qn, int(npz['num_events'])
 
 
-def main(run_folder, output_folder='.'):
+def main(run_folder, output_folder='.', design_point=01):
     pattern = path.join(run_folder, '**', 'smash_analysis_*.npz')
     files = sorted(glob(pattern, recursive=True), key=_sort_key)
 
@@ -167,8 +167,8 @@ def main(run_folder, output_folder='.'):
     Nsamples = Nsamples[np.newaxis, :]  # (1, N_events)
 
     makedirs(output_folder, exist_ok=True)
-    np.save(path.join(output_folder, 'Qns_0.npy'),      Qns)
-    np.save(path.join(output_folder, 'Nsamples_0.npy'), Nsamples)
+    np.save(path.join(output_folder, f'Qns_{design_point}.npy'),      Qns)
+    np.save(path.join(output_folder, f'Nsamples_{design_point}.npy'), Nsamples)
     np.save(path.join(output_folder, 'pt_bins.npy'),    pt_bins_ref)
 
     sp_names = [s[0] for s in SPECIES]
@@ -190,4 +190,5 @@ if __name__ == '__main__':
         sys.exit(1)
     run_folder    = sys.argv[1]
     output_folder = sys.argv[2] if len(sys.argv) > 2 else '.'
-    main(run_folder, output_folder)
+    design_point  = int(sys.argv[3]) if len(sys.argv) > 3 else 0
+    main(run_folder, output_folder, design_point)
