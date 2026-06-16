@@ -116,7 +116,7 @@ def process_event(npz):
     return event_qn, int(npz['num_events'])
 
 
-def main(run_folder, output_folder='.', design_point=01):
+def main(run_folder, output_folder='.', design_point=0):
     pattern = path.join(run_folder, '**', 'smash_analysis_*.npz')
     files = sorted(glob(pattern, recursive=True), key=_sort_key)
 
